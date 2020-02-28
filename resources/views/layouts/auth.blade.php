@@ -15,13 +15,9 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="antialiased">
-    <div class="page">
-        @include('partials.sidebar')
-        @include('partials.navbar')
-        <div class="content">
-            @yield('content')
-        </div>
+<body class="antialiased border-top-wide border-primary d-flex flex-column">
+    <div class="flex-fill d-flex flex-column justify-content-center">
+        @yield('content')
     </div>
     @yield('js')
 </body>

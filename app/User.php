@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -16,7 +17,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name',
+        'last_name',
+        'email',
+        'password',
     ];
 
     /**
@@ -25,7 +29,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 
+        'remember_token',
     ];
 
     /**
@@ -34,6 +39,51 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
+        'first_name'        => 'string',
+        'last_name'         => 'string',
+        'email'             => 'string',
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'email_verified_at',
+    ];
+
+    /**
+     * Set user's password
+     *
+     * @param string $password
+     * @return void
+     */
+    public function setPasswordAttribute(string $password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+
+    /**
+     * Get user's full name
+     *
+     * @return string
+     */
+    public function getFullNameAttribute(): string
+    {
+        return ucfirst($this->first_name . ' ' . $this->last_name);
+    }
+
+    /**
+     * Get user's initials
+     *
+     * @return string
+     */
+    public function getInitialsAttribute(): string
+    {
+        return mb_substr($this->first_name, 0, 1) .''. mb_substr($this->last_name, 0, 1);
+    }
 }
