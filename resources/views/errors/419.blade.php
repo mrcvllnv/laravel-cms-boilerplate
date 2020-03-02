@@ -1,5 +1,8 @@
 @extends('errors::layout')
 
-@section('title', __('Page Expired'))
-@section('code', '419')
-@section('message', __('Page Expired'))
+@section('title', __('Session Expired'))
+@section('heading')
+    <img src="{{ asset('assets/media/undraw_void_3ggu.svg') }}" class="h-8 mb-4" alt="">
+@endsection
+@section('subheading', __('Sorry, your session has expired.'))
+@section('message', __('Please refresh and try again.'))

@@ -37,49 +37,16 @@
     </div>
     <div class="card">
         <div class="table-responsive">
-            <table id="dataTable" class="table card-table table-vcenter text-nowrap datatable">
+            <table id="dataTable" class="table card-table table-hover table-vcenter text-nowrap datatable">
                 <thead>
                     <tr>
                         <th>{{ __('ID') }}</th>
                         <th>{{ __('User') }}</th>
                         <th>{{ __('Created') }}</th>
                         <th>{{ __('Status') }}</th>
-                        <th class="w-8 text-center">{{ __('Action') }}</th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach ($users as $user)
-                        <tr>
-                            <td><span class="text-muted">{{ $user->id }}</span></td>
-                            <td>
-                                <div class="d-flex">
-                                    <span class="avatar mt-1 {{ Arr::random(['bg-green-lt', 'bg-red-lt', 'bg-yellow-lt', 'bg-blue-lt', 'bg-purple-lt']) }}">{{ $user->initials }}</span>
-                                    <div class="text-truncate ml-2">
-                                        <a href="#" class="text-body d-block">{{ $user->full_name }}</a>
-                                        <small class="d-block text-muted text-truncate mt-n1">{{ $user->email }}</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ $user->created_at->toFormattedDateString() }}</td>
-                            <td>
-                                <span class="status-icon bg-success"></span> Active
-                            </td>
-                            <td class="text-center">
-                                <span class="dropdown ml-1">
-                                    <button class="btn btn-secondary btn-sm dropdown-toggle align-text-top" data-boundary="viewport" data-toggle="dropdown">Actions</button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">
-                                            Action
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            Another action
-                                        </a>
-                                    </div>
-                                </span>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
             </table>
         </div>
     </div>
@@ -92,6 +59,7 @@
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
+                    <option value="-1">All</option>
                 </select>
             </div>
             {{ __('entries') }}
@@ -184,13 +152,21 @@
                     $('#dataTable_paginate').appendTo('.pagination-wrapper')
                 },
                 responsive: true,
-                searchDelay: 500,
-                columnDefs: [{
-                    searchable: false,
-                    orderable: false,
-                    targets: [-1],
-                }],
-                dom: 'tip'
+                searchDelay: 2500,
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    type: "GET",
+                    url :"{!! route('users.fetch') !!}"
+                },
+                columns: [
+                    { data: 'id', name: 'id' },
+                    { data: 'user', name: 'user' },
+                    { data: 'created', name: 'created' },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', class: 'text-center', searchable: false, orderable: false,},
+                ],
+                dom: 'tip',
             });
 
             $('#dataTableSearch').keyup(function(){

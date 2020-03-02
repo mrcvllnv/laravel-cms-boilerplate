@@ -1,24 +1,46 @@
-table.dataTable thead th {
-    position: relative;
-    background-image: none !important;
+table {
+	&.table-hover tbody tr {
+		&:hover {
+			background-color: $body-bg;
+		}
+	}
+	&.dataTable thead th {
+		position: relative;
+		background-image: none !important;
+		cursor: pointer;
+	
+		&:focus {
+			outline: 0;
+		}
+	
+		&.sorting, &.sorting_asc, &.sorting_desc { 
+			&:after {
+				position: absolute !important;
+				top: 12px !important;
+				right: 8px !important;
+				display: block !important;
+			}
+		}
+		
+		&.sorting {
+			&:after {
+				font-size: 0.8em !important;
+				padding-top: 0.12em !important;
+			}
+		}
+	
+		&.sorting_asc {
+			&:after {
+				content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgb(134, 140, 151)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm text-dark icon-thick"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>') !important;
+			}
+		}
+	
+		&.sorting_desc {
+			&:after {
+				content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgb(134, 140, 151)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm text-dark icon-thick"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>') !important;
+			}
+		}
+	}
 }
-  
-table.dataTable thead th.sorting:after,
-table.dataTable thead th.sorting_asc:after,
-table.dataTable thead th.sorting_desc:after {
-    position: absolute !important;
-    top: 12px !important;
-    right: 8px !important;
-    display: block !important;
-    color: #3B4052 !important;
-}
-table.dataTable thead th.sorting:after {
-    font-size: 0.8em !important;
-    padding-top: 0.12em !important;
-}
-table.dataTable thead th.sorting_asc:after {
-    content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm text-dark icon-thick"><path d="M12 5L21 5" stroke="inherit" stroke-width="inherit" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 9L18 9" stroke="inherit" stroke-width="inherit" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 13L15 13" stroke="inherit" stroke-width="inherit" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17L7 20L10 17" stroke="inherit" stroke-width="inherit" stroke-linecap="round" stroke-linejoin="round"/><line x1="7" y1="18" x2="7" y2="4" stroke="inherit" stroke-width="inherit" stroke-linecap="round"/></svg>') !important;
-}
-table.dataTable thead th.sorting_desc:after {
-    content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm text-dark icon-thick"><path d="M12 5H15" stroke="inherit" stroke-width="inherit" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 9L18 9" stroke="inherit" stroke-width="inherit" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 13L21 13" stroke="inherit" stroke-width="inherit" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17L7 20L10 17" stroke="inherit" stroke-width="inherit" stroke-linecap="round" stroke-linejoin="round"/><line x1="7" y1="18" x2="7" y2="4" stroke="inherit" stroke-width="inherit" stroke-linecap="round"/></svg>') !important;
-}
+
+	

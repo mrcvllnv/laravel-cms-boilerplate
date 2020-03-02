@@ -84,4 +84,50 @@ class UsersController extends Controller
     {
         //
     }
+
+    public function fetch()
+    {
+        $users = User::all();
+
+        return datatables()->of($users)
+            ->editColumn('user', function ($user) {
+                return '
+                    <div class="d-flex">
+                        <span class="avatar mt-1"> ' . $user->initials . ' </span>
+                        <div class="text-truncate ml-2">
+                            <a href="#" class="text-body d-block">' . $user->full_name . '</a>
+                            <small class="d-block text-muted text-truncate mt-n1">' . $user->email . '</small>
+                        </div>
+                    </div>
+                ';
+            })
+            ->editColumn('created', function ($user) {
+                return $user->created_at->toFormattedDateString();
+            })
+            ->editColumn('status', function ($user) {
+                if ($user->isActive()) {
+                    return '<span class="badge bg-green-lt">Active</span>';
+                }
+                return '<span class="badge bg-yellow-lt">Pending</span>';
+            })
+            ->addColumn('action', function($user){
+                return '
+                    <div class="dropdown">
+                        <button class="btn-options" type="button" data-boundary="viewport" data-toggle="dropdown">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" style="">
+                            <a class="dropdown-item" href="#">
+                            Action
+                            </a>
+                            <a class="dropdown-item" href="#">
+                            Another action
+                            </a>
+                        </div>
+                    </div>
+                ';
+            })
+            ->rawColumns(['user', 'create', 'status', 'action'])
+            ->make(true);
+    }
 }

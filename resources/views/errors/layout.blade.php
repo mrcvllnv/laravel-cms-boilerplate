@@ -14,9 +14,9 @@
             <div class="container-tight py-6">
                 <div class="empty">
                     <div class="empty-icon">
-                        <div class="display-4">@yield('code')</div>
+                        @yield('heading')
                     </div>
-                    <p class="empty-title h3">{{ __('Oops… You just found an error page') }}</p>
+                    <p class="empty-title h3">@yield('subheading')</p>
                     <p class="empty-subtitle text-muted">
                         @yield('message')
                     </p>

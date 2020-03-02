@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -85,5 +86,26 @@ class User extends Authenticatable
     public function getInitialsAttribute(): string
     {
         return mb_substr($this->first_name, 0, 1) .''. mb_substr($this->last_name, 0, 1);
+    }
+
+    /**
+     * Check if user is active
+     *
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->email_verified_at !== NULL;
+    }
+
+    /**
+     * Get all active users
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->whereNotNull('email_verified_at');
     }
 }
