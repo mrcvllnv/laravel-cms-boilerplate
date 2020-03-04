@@ -157,7 +157,7 @@
                 serverSide: true,
                 ajax: {
                     type: "GET",
-                    url :"{!! route('users.fetch') !!}"
+                    url :"{!! route('users.datatables') !!}"
                 },
                 columns: [
                     { data: 'id', name: 'id' },
