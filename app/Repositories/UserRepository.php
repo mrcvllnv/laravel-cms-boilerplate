@@ -54,6 +54,12 @@ class UserRepository extends Repository implements UserRepositoryInterface
                 }
                 return '<span class="badge bg-yellow-lt">Pending</span>';
             })
+            ->editColumn('full_name', function ($user) {
+                return $user->full_name;
+            })
+            ->editColumn('initials', function ($user) {
+                return $user->initials;
+            })
             ->addColumn('action', function($user){
                 return '
                     <div class="dropdown">
@@ -73,7 +79,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
                     </div>
                 ';
             })
-            ->rawColumns(['user', 'create', 'status', 'action'])
+            ->rawColumns(['user', 'create', 'status', 'full_name', 'initials', 'action'])
             ->make(true);
     }
 }

@@ -1,4 +1,13 @@
 table {
+	&.table tbody tr {
+		&.selected {
+			background-color: $body-bg;
+
+			&:hover {
+				background-color: #f1f3f8;
+			}
+		}
+	}
 	&.table-hover tbody tr {
 		&:hover {
 			background-color: $body-bg;
