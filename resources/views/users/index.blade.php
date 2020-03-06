@@ -64,13 +64,13 @@
                                     </label>
                                 </div>
                             </div>
-                            <input type="text" class="form-control" placeholder="Search…" id="datatable-search">
+                            <input type="text" class="form-control datatable-search" placeholder="Search…">
                         </div>
                     </div>
                     <div class="p-2">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-user">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                            {{ __('New User') }}
+                            {{ __('Create User') }}
                         </button>
                     </div>
                 </div>
@@ -95,22 +95,7 @@
             </table>
         </div>
     </div>
-    <div class="d-flex">
-        <div class="text-muted">
-            {{ __('Show') }}
-            <div class="mx-1 d-inline-block">
-                <select id="datatable-length" class="form-control form-control-sm">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="-1">All</option>
-                </select>
-            </div>
-            {{ __('entries') }}
-        </div>
-        <div class="pagination-wrapper m-0 ml-auto"></div>
-    </div>
+    @include('partials.datatables.footer')
     @include('users.partials.add_modal')
 </div>
 @endsection
@@ -161,12 +146,6 @@
             }
 
             var dataTable = $('#dataTable').DataTable({
-                initComplete: function() {
-                    $('#dataTable_info').prependTo('.information-wrapper')
-                    $('#dataTable_paginate').appendTo('.pagination-wrapper')
-                },
-                responsive: true,
-                searchDelay: 200,
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -193,7 +172,6 @@
                     { data: 'last_name', name: 'last_name', visible: false, orderable: false, searchable: false },
                     { data: 'action', name: 'action', class: 'text-center', searchable: false, orderable: false,},
                 ],
-                dom: 'tip',
                 order: [[3, 'desc']],
                 rowCallback: function(row, data, dataIndex){
                     // Get row ID
@@ -276,11 +254,11 @@
                 updateDataTableSelectAllCtrl(dataTable);
             });
 
-            $('#datatable-search').keyup(function(){
+            $('.datatable-search').keyup(function(){
                 dataTable.search($(this).val()).draw() ;
             })
 
-            $('#datatable-length').change(function(){
+            $('.datatable-length').change(function(){
                 dataTable.page.len($(this).val()).draw() ;
             })
 

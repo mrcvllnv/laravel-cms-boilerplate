@@ -17,4 +17,11 @@ class AccountTest extends TestCase
 
         $this->assertInstanceOf(Collection::class, $account->users);
     }
+
+    public function testHasManyOrganizations()
+    {
+        $account = factory(Account::class)->create();
+
+        $this->assertInstanceOf(Collection::class, $account->organizations);
+    }
 }

@@ -16,4 +16,14 @@ class Account extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    /**
+     * Get organizations associated with the account.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function organizations(): HasMany
+    {
+        return $this->hasMany(Organization::class);
+    }
 }

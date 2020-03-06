@@ -8,7 +8,7 @@
             <h6 class="navbar-heading">{{ __('Navigation') }}</h6>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::segment(1) === NULL ? 'active' : '' }}" href="{{ route('dashboard') }}" >
+                    <a class="nav-link px-5 {{ Request::segment(1) === NULL ? 'active' : '' }}" href="{{ route('dashboard') }}" >
                         <span class="nav-link-icon mr-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -16,6 +16,18 @@
                             </svg>
                         </span>
                         <span class="nav-link-title">{{ __('Dashboard') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-5 {{ Request::segment(1) === 'organizations' ? 'active' : '' }}" href="{{ route('organizations.index') }}" >
+                        <span class="nav-link-icon mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            </svg>
+                        </span>
+                        <span class="nav-link-title">{{ __('Organizations') }}</span>
                     </a>
                 </li>
             </ul>

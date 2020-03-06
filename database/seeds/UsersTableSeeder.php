@@ -1,6 +1,7 @@
 <?php
 
 use App\Account;
+use App\Organization;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -24,5 +25,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         factory(User::class, 5)->create(['account_id' => $account->id]);
+
+        factory(Organization::class, 100)->create(['account_id' => $account->id]);
     }
 }

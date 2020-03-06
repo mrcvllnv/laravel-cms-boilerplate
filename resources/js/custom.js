@@ -16,4 +16,15 @@
             }, false);
         });
     }, false);
+
+    // Set datatable default options
+    $.extend(true, $.fn.dataTable.defaults, {
+        initComplete: function() {
+            $('#dataTable_info').prependTo('.information-wrapper');
+            $('#dataTable_paginate').appendTo('.pagination-wrapper');
+        },
+        responsive: true,
+        searchDelay: 200,
+        dom: 'tip',
+    });
 })();
