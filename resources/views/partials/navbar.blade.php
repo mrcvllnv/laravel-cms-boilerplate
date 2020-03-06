@@ -4,6 +4,9 @@
             <img src="{{ asset('/assets/media/logos/logo.svg') }}" alt="Tabler" class="navbar-brand-logo navbar-brand-logo-large">
             <img src="{{ asset('/assets/media/logos/logo-small.svg') }}" alt="Tabler" class="navbar-brand-logo navbar-brand-logo-small">
         </a>
+        <div class="w-50 mr-4 d-none d-md-flex ">
+            <span>{{ auth()->user()->account->name }}</span>
+        </div>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown pl-2">
                 <a href="#" class="nav-link d-flex lh-1 text-inherit p-0 text-left" data-toggle="dropdown">
@@ -15,9 +18,12 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                     <a class="dropdown-item" href="#">
-                        {{ __('Account Settings') }}
+                        {{ __('My Profile') }}
                     </a>
-                    {{-- <div class="dropdown-divider"></div> --}}
+                    <a class="dropdown-item" href="{{ route('users.index') }}">
+                        {{ __('Manage Users') }}
+                    </a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
                     </a>

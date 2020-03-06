@@ -65,7 +65,7 @@ php artisan serve
 
 You're ready to go! Visit the CMS in your browser, and login with:
 
-- **Email:** superadmin@example.com
+- **Email:** johndoe@example.com
 - **Password:** secret
 
 ## Running tests

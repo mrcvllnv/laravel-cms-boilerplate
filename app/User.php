@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -59,6 +60,16 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * Get the account that owns the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(Account::class);
+    }
+
+    /**
      * Set user's password
      *
      * @param string $password
@@ -94,7 +105,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return boolean
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->email_verified_at !== NULL;
     }
@@ -108,5 +119,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeActive(Builder $query): Builder
     {
         return $query->whereNotNull('email_verified_at');
+    }
+
+    /**
+     * Get all active users
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeInactive(Builder $query): Builder
+    {
+        return $query->whereNull('email_verified_at');
     }
 }

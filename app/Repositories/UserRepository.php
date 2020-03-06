@@ -5,7 +5,10 @@ namespace App\Repositories;
 use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\Repository;
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class UserRepository extends Repository implements UserRepositoryInterface
 {
@@ -31,28 +34,24 @@ class UserRepository extends Repository implements UserRepositoryInterface
      */
     public function getUsersForDataTables(): JsonResponse
     {
-        $users = $this->model->all();
+        $users = $this->model->active()->get();
 
-        return datatables()->of($users)
+        if ($status = Request::get('status')) {
+            $users = $this->filterStatus($status);
+        }
+
+        return DataTables::of($users)
             ->editColumn('user', function ($user) {
-                return '
-                    <div class="d-flex">
-                        <span class="avatar mt-1"> ' . $user->initials . ' </span>
-                        <div class="text-truncate ml-2">
-                            <a href="#" class="text-body d-block">' . $user->full_name . '</a>
-                            <small class="d-block text-muted text-truncate mt-n1">' . $user->email . '</small>
-                        </div>
-                    </div>
-                ';
+                return view('users.partials.avatar', compact('user'))->toHtml();
             })
             ->editColumn('created', function ($user) {
                 return $user->created_at->toFormattedDateString();
             })
             ->editColumn('status', function ($user) {
-                if ($user->isActive()) {
-                    return '<span class="badge bg-green-lt">Active</span>';
+                if (! $user->isActive()) {
+                    return '<span class="badge bg-yellow-lt">Inactive</span>';
                 }
-                return '<span class="badge bg-yellow-lt">Pending</span>';
+                return '<span class="badge bg-green-lt">Active</span>';
             })
             ->editColumn('full_name', function ($user) {
                 return $user->full_name;
@@ -61,25 +60,22 @@ class UserRepository extends Repository implements UserRepositoryInterface
                 return $user->initials;
             })
             ->addColumn('action', function($user){
-                return '
-                    <div class="dropdown">
-                        <button class="btn-options" type="button" data-boundary="viewport" data-toggle="dropdown">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right" style="">
-                            <a class="dropdown-item" href="'. route('users.edit', $user) .'">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                Edit
-                            </a>
-                            <a class="dropdown-item text-danger" href="#">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon dropdown-item-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                Delete
-                            </a>
-                        </div>
-                    </div>
-                ';
+                return view('users.partials.action', compact('user'))->toHtml();
             })
             ->rawColumns(['user', 'create', 'status', 'full_name', 'initials', 'action'])
             ->make(true);
+    }
+
+    /**
+     * Get users with filtered status.
+     *
+     * @param string $status
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function filterStatus(string $status): Collection
+    {
+        return intval($status) < 2 
+            ? $this->model->all() 
+            : $this->model->inactive()->get();
     }
 }
