@@ -35,13 +35,18 @@ class OrganizationRepository extends Repository implements OrganizationRepositor
         $organizations = $this->model->all();
 
         return DataTables::of($organizations)
-            ->editColumn('organization', function ($organization) {
-                return view('organizations.partials.avatar', compact('organization'))->toHtml();
+            ->editColumn('address', function ($organization) {
+                return '
+                    <div class="text-truncate ml-2">
+                        <a href="#" class="text-body d-block">'. $organization->address .'</a>
+                        <small class="d-block text-muted text-truncate mt-n1">' . $organization->city . ', ' . $organization->region . ' ' . $organization->postal_code . ' ' . $organization->country . '</small>
+                    </div>
+                ';
             })
             ->addColumn('action', function($organization){
                 return view('organizations.partials.action', compact('organization'))->toHtml();
             })
-            ->rawColumns(['organization', 'action'])
+            ->rawColumns(['address', 'action'])
             ->make(true);
     }
 }

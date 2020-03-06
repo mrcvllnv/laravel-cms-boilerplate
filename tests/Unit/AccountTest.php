@@ -24,4 +24,11 @@ class AccountTest extends TestCase
 
         $this->assertInstanceOf(Collection::class, $account->organizations);
     }
+
+    public function testHasManyContacts()
+    {
+        $account = factory(Account::class)->create();
+
+        $this->assertInstanceOf(Collection::class, $account->contacts);
+    }
 }

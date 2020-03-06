@@ -26,4 +26,14 @@ class Account extends Model
     {
         return $this->hasMany(Organization::class);
     }
+
+    /**
+     * Get contacts associated with the account.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(Contact::class);
+    }
 }

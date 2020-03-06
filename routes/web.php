@@ -10,4 +10,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('organizations/datatables', 'OrganizationDataTablesController')->name('organizations.datatables');
     Route::get('organizations', 'OrganizationsController@index')->name('organizations.index');
+
+    Route::get('contacts/datatables', 'ContactDataTableController')->name('contacts.datatables');
+    Route::get('contacts', 'ContactController@index')->name('contacts.index');
 });

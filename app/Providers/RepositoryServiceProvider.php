@@ -1,10 +1,12 @@
 <?php
 namespace App\Providers;
 
-use App\Interfaces\UserRepositoryInterface;
+use App\Interfaces\ContactRepositoryInterface;
 use App\Interfaces\OrganizationRepositoryInterface;
-use App\Repositories\UserRepository;
+use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\ContactRepository;
 use App\Repositories\OrganizationRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -18,5 +20,6 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(OrganizationRepositoryInterface::class, OrganizationRepository::class);
+        $this->app->bind(ContactRepositoryInterface::class, ContactRepository::class);
     }
 }
